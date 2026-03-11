@@ -1,7 +1,6 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from app.extensions import db
+from app.models.job import Job
 
 def create_app():
     app = Flask(__name__)
@@ -9,6 +8,9 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
 
     @app.route("/")
     def index():

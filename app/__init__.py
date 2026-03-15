@@ -1,6 +1,7 @@
 from flask import Flask
 from app.extensions import db
-from app.models.job import Job
+from app.models.job import Job # noqa: F401 - imported to register model with SQLAlchemy
+from app.routes.jobs import jobs_bp
 
 def create_app():
     app = Flask(__name__)
@@ -15,5 +16,7 @@ def create_app():
     @app.route("/")
     def index():
         return {"message": "Job Tracker API is running"}
-
+    
+    app.register_blueprint(jobs_bp)
+    
     return app
